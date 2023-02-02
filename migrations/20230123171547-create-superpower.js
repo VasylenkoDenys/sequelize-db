@@ -1,45 +1,35 @@
-"use strict";
+'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("superheroes", {
+    await queryInterface.createTable('superpowers', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
-      nickname: {
+      powerName: {
         type: Sequelize.STRING(64),
+        field: "power_name",
         allowNull: false,
         unique: true,
-      },
-      realName: {
-        type: Sequelize.STRING(64),
-        field: "real_name",
-        allowNull: false,
-      },
-      originDescription: {
-        type: Sequelize.STRING,
-        field: "origin_description",
-      },
-      catchPhrase: {
-        type: Sequelize.STRING,
-        field: "catch_phrase",
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
         field: "created_at",
+
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
         field: "updated_at",
-      },
+
+      }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("superheroes");
-  },
+    await queryInterface.dropTable('superpowers');
+  }
 };

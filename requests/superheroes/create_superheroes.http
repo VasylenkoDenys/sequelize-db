@@ -1,0 +1,23 @@
+POST http://localhost:5000/superheroes
+Content-Type: application/json
+
+[
+{
+  "nickname": "Mr. Glass",
+  "realName": "Elijah Price",
+  "originDescription": "A genius wheelchair user, comic book theorist with Type I osteogenesis imperfecta, and mass murderer",
+  "catchPhrase": "Do you know what the scariest thing is? To not know your place in this world, to not know why you're here"
+},
+{
+  "nickname": "The Horde",
+  "realName": "Kevin Wendell Crumb",
+  "originDescription": "He suffering from a Dissociative Identity Disorder. He has 23 personalities residing in his mind.",
+  "catchPhrase": "We are glorious! We will no longer be afraid! Only through pain... can you achieve your greatness!"
+},
+{
+  "nickname": "The Overseer",
+  "realName": "David Dunn",
+  "originDescription": "Dunn is a former college football prodigy, he is a security guard with supernatural abilities.",
+  "catchPhrase": "If there is someone like me in the world, and I'm at one end of the spectrum, couldn't there be someone else the opposite of me at the other end?"
+}
+]

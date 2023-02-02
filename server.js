@@ -1,6 +1,8 @@
-const express = require('express');
-const app = express();
-app.listen(5000);
-app.get('/superheroes', (req, res) => {
+const http = require('http');
+const app = require('./app');
 
-});
+const server = http.createServer(app);
+
+const PORT = 5000;
+
+server.listen(PORT);

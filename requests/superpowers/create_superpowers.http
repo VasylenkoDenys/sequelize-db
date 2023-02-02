@@ -1,0 +1,23 @@
+POST http://localhost:5000/superpowers
+Content-Type: application/json
+
+[
+{
+  "powerName": "invulnerability"
+},
+{
+  "powerName": "psychometry"
+},
+{
+  "powerName": "over strength"
+},
+{
+  "powerName": "over mind"
+},
+{
+  "powerName": "multipersonality"
+},
+{
+  "powerName": "ability to fly"
+}
+]
