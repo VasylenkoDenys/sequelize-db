@@ -1,5 +1,6 @@
 const createHttpError = require("http-errors");
 const { Superhero } = require("../models");
+const superpower = require("../models/superpower");
 
 module.exports.createSuperhero = async (req, res, next) => {
   try {
@@ -74,4 +75,15 @@ module.exports.deleteSuperhero = async (req, res, next) => {
   res.send({ data: `Superhero ${superhero.nickname} is deleted`,superhero });
 };
 
+module.exports.addSuperpowersToSuperhero = async (req, res, next) => {
+  const {
+    params: { superheroId },
+  } = req;
 
+  const superhero = await Superhero.findByPk(superheroId);
+  if (!superhero) {
+    next(createHttpError(404, "Superhero not found"));
+  }
+  await superhero.addSuperpower(superpower);
+  res.send({data: 'Superpower added'});
+}
