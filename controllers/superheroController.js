@@ -78,6 +78,7 @@ module.exports.deleteSuperhero = async (req, res, next) => {
 module.exports.addSuperpowersToSuperhero = async (req, res, next) => {
   const {
     params: { superheroId },
+    superpower,
   } = req;
 
   const superhero = await Superhero.findByPk(superheroId);
@@ -85,5 +86,5 @@ module.exports.addSuperpowersToSuperhero = async (req, res, next) => {
     next(createHttpError(404, "Superhero not found"));
   }
   await superhero.addSuperpower(superpower);
-  res.send({data: 'Superpower added'});
-}
+  res.send({data: `Superpower '${superpower.powerName}' added to ${superhero.nickname}`});
+};
