@@ -37,8 +37,9 @@ module.exports.getSuperhero = async (req, res, next) => {
       id: superheroId,
     },
   });
+  const superpowers = await superhero.getSuperpowers();
   if (superhero) {
-    res.send({ data: superhero });
+    res.send({ data: {...superhero.toJSON(), superpowers} });
   } else {
     next(createHttpError(404, "Superhero not found"));
   }
