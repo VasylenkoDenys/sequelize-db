@@ -1,5 +1,5 @@
 const createHttpError = require("http-errors");
-const { Superhero } = require("../models");
+const { Superhero, Superpower } = require("../models");
 const superpower = require("../models/superpower");
 
 module.exports.createSuperhero = async (req, res, next) => {
@@ -23,7 +23,7 @@ module.exports.createSuperheroes = async (req, res, next) => {
 };
 
 module.exports.getSuperheroes = async (req, res, next) => {
-  const superheroes = await Superhero.findAll();
+  const superheroes = await Superhero.findAll({include: Superpower,});
   res.send({ data: superheroes });
 };
 
