@@ -8,6 +8,8 @@ app.use(express.json());
 
 app.use(router);
 
+app.use(express.static('public'));
+
 app.use(sequelizeErrorHandler);
 
 app.use(errorHandler);

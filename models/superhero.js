@@ -36,6 +36,12 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       catchPhrase: { type: DataTypes.STRING },
+      pictures: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: true,
+        },
+      },
     },
     {
       sequelize,

@@ -1,17 +1,17 @@
 const createHttpError = require('http-errors');
-const { Superpower } = require('../models');
+const { Superhero } = require('../models');
 
-module.exports.getSuperpower = async (req, res, next) => {
+module.exports.getSuperhero = async (req, res, next) => {
   const {
-    params: { superpowerId },
+    params: { superheroId },
   } = req;
 
-  const superpower = await Superpower.findByPk(superpowerId);
+  const superhero = await Superhero.findByPk(superheroId);
 
-  if (!superpower) {
+  if (!superhero) {
     return next(createHttpError(404, 'Superhero not found'));
   }
 
-  req.superpower = superpower;
+  req.superhero = superhero;
   next();
 };

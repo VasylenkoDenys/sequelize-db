@@ -1,6 +1,5 @@
 const createHttpError = require("http-errors");
 const { Superhero, Superpower } = require("../models");
-const superpower = require("../models/superpower");
 
 module.exports.createSuperhero = async (req, res, next) => {
   try {
@@ -26,9 +25,9 @@ module.exports.getSuperheroes = async (req, res, next) => {
   const superheroes = await Superhero.findAll({
     include: {
       model: Superpower,
-      as: 'superpowers',
-      attributes: ['id', 'powerName'],
-      through: {attributes: []},
+      as: "superpowers",
+      attributes: ["id", "powerName"],
+      through: { attributes: [] },
     },
   });
   res.send({ data: superheroes });
@@ -48,7 +47,7 @@ module.exports.getSuperhero = async (req, res, next) => {
   if (superhero) {
     res.send({ data: { ...superhero.toJSON(), superpowers } });
   } else {
-    next(createHttpError(404, "Superhero not found"));
+    return next(createHttpError(404, "Superhero not found"));
   }
 };
 
@@ -77,7 +76,7 @@ module.exports.deleteSuperhero = async (req, res, next) => {
 
   const superhero = await Superhero.findByPk(superheroId);
   if (!superhero) {
-    next(createHttpError(404, "Superhero not found"));
+    return next(createHttpError(404, "Superhero not found"));
   }
   await superhero.destroy();
   res.send({ data: `Superhero ${superhero.nickname} is deleted`, superhero });
@@ -91,10 +90,45 @@ module.exports.addSuperpowersToSuperhero = async (req, res, next) => {
 
   const superhero = await Superhero.findByPk(superheroId);
   if (!superhero) {
-    next(createHttpError(404, "Superhero not found"));
+    return next(createHttpError(404, "Superhero not found"));
   }
   await superhero.addSuperpower(superpower);
   res.send({
     data: `Superpower '${superpower.powerName}' added to ${superhero.nickname}`,
   });
+};
+
+module.exports.removeSuperpowerFromSuperhero = async (req, res, next) => {
+  const {
+    params: { superheroId },
+    superpower,
+  } = req;
+
+  const superhero = await Superhero.findByPk(superheroId);
+  if (!superhero) {
+    return next(createHttpError(404, "Superhero not found"));
+  }
+  await superhero.removeSuperpower(superpower);
+  res.send({
+    data: `Superpower '${superpower.powerName}' removed from ${superhero.nickname}`,
+  });
+};
+
+module.exports.addPictureToSuperhero = async (req, res, next) => {
+  const {
+    files,
+    params: { superheroId },
+  } = req;
+  try {
+    const [updatedSuperhero, [superhero]] = await Superhero.update(
+      {pictures: files.filename},
+      {where: {id: superheroId}, returning: true}
+    );
+    if (updatedSuperhero !== 1) {
+      throw createHttpError(404, 'Superhero not found');
+    }
+    res.send({ data: superhero });
+  } catch(error) {
+    next(error);
+  }
 };
