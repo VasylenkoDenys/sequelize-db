@@ -26,6 +26,7 @@ module.exports.getSuperheroes = async (req, res, next) => {
   const superheroes = await Superhero.findAll({
     include: {
       model: Superpower,
+      as: 'superpowers',
       attributes: ['id', 'powerName'],
       through: {attributes: []},
     },
