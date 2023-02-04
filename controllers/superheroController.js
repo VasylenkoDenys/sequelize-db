@@ -23,7 +23,12 @@ module.exports.createSuperheroes = async (req, res, next) => {
 };
 
 module.exports.getSuperheroes = async (req, res, next) => {
-  const superheroes = await Superhero.findAll({include: Superpower,});
+  const superheroes = await Superhero.findAll({
+    include: {
+      model: Superpower,
+      through: {attributes: []},
+    },
+  });
   res.send({ data: superheroes });
 };
 
@@ -39,7 +44,7 @@ module.exports.getSuperhero = async (req, res, next) => {
   });
   const superpowers = await superhero.getSuperpowers();
   if (superhero) {
-    res.send({ data: {...superhero.toJSON(), superpowers} });
+    res.send({ data: { ...superhero.toJSON(), superpowers } });
   } else {
     next(createHttpError(404, "Superhero not found"));
   }
@@ -73,7 +78,7 @@ module.exports.deleteSuperhero = async (req, res, next) => {
     next(createHttpError(404, "Superhero not found"));
   }
   await superhero.destroy();
-  res.send({ data: `Superhero ${superhero.nickname} is deleted`,superhero });
+  res.send({ data: `Superhero ${superhero.nickname} is deleted`, superhero });
 };
 
 module.exports.addSuperpowersToSuperhero = async (req, res, next) => {
@@ -87,5 +92,7 @@ module.exports.addSuperpowersToSuperhero = async (req, res, next) => {
     next(createHttpError(404, "Superhero not found"));
   }
   await superhero.addSuperpower(superpower);
-  res.send({data: `Superpower '${superpower.powerName}' added to ${superhero.nickname}`});
+  res.send({
+    data: `Superpower '${superpower.powerName}' added to ${superhero.nickname}`,
+  });
 };
