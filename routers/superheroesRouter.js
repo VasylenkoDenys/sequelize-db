@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
     cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 
 superheroRouter
   .post("/", SuperheroController.createSuperheroes)
@@ -22,10 +22,7 @@ superheroRouter
   )
   .post(
     "/:superheroId/pictures",
-    upload.fields([
-      { name: "glass_picture", maxCount: 1 },
-      { name: "glass_picture_2", maxCount: 1 },
-    ]),
+    upload.single('heroe-picture'),
     SuperheroController.addPictureToSuperhero
   )
   .get("/", SuperheroController.getSuperheroes)
@@ -39,3 +36,11 @@ superheroRouter
   );
 
 module.exports = superheroRouter;
+
+
+/*
+upload.fields([
+      { name: "glass_picture", maxCount: 1 },
+      { name: "glass_picture_2", maxCount: 1 },
+    ]),
+*/

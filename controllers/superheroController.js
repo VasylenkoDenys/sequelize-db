@@ -116,12 +116,12 @@ module.exports.removeSuperpowerFromSuperhero = async (req, res, next) => {
 
 module.exports.addPictureToSuperhero = async (req, res, next) => {
   const {
-    files,
+    file,
     params: { superheroId },
   } = req;
   try {
     const [updatedSuperhero, [superhero]] = await Superhero.update(
-      {pictures: files.filename},
+      {pictures: file.filename},
       {where: {id: superheroId}, returning: true}
     );
     if (updatedSuperhero !== 1) {
